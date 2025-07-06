@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Delights Bakery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"/>
+    <script defer src="scripts.js"></script>
+</head>
+<body class="bg-amber-50">
+    <!-- Header -->
+    <header class="bg-amber-800 text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-bread-slice text-2xl"></i>
+                <h1 class="text-2xl font-bold">Sweet Delights</h1>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="relative">
+                    <button id="cart-btn" class="relative">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+                <button class="md:hidden" id="mobile-menu-btn">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden bg-amber-700 text-white py-2 px-4">
+        <div class="container mx-auto flex flex-col space-y-2">
+            <a href="#" class="py-1">Home</a>
+            <a href="#" class="py-1">About</a>
+            <a href="#" class="py-1">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Filters Section -->
+            <aside class="w-full md:w-64 bg-white rounded-lg shadow-md p-4 h-fit sticky top-24 filter-section overflow-y-auto max-h-[calc(100vh-6rem)]">
+                <h2 class="text-xl font-bold mb-4 text-amber-900">Filters</h2>
+                
+                <!-- Category Filter -->
+                <div class="mb-6">
+                    <h3 class="font-semibold mb-2 text-amber-800">Categories</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" class="form-checkbox text-amber-600 rounded" value="bread" checked>
+                            <span>Breads</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" class="form-checkbox text-amber-600 rounded" value="cake" checked>
+                            <span>Cakes</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" class="form-checkbox text-amber-600 rounded" value="pastry" checked>
+                            <span>Pastries</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" class="form-checkbox text-amber-600 rounded" value="cookie" checked>
+                            <span>Cookies</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" class="form-checkbox text-amber-600 rounded" value="pie" checked>
+                            <span>Pies</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Price Filter -->
+                <div class="mb-6">
+                    <h3 class="font-semibold mb-2 text-amber-800">Price Range</h3>
+                    <div class="flex items-center justify-between mb-2">
+                        <span>$2</span>
+                        <span>$15</span>
+                    </div>
+                    <input type="range" min="2" max="15" value="15" step="1" class="w-full accent-amber-600" id="price-range">
+                    <div class="text-center mt-2">
+                        <span id="price-value" class="font-medium">Up to $15</span>
+                    </div>
+                </div>
+                
+                <!-- Calories Filter -->
+                <div class="mb-6">
+                    <h3 class="font-semibold mb-2 text-amber-800">Calories</h3>
+                    <div class="flex items-center justify-between mb-2">
+                        <span>100</span>
+                        <span>800</span>
+                    </div>
+                    <input type="range" min="100" max="800" value="800" step="50" class="w-full accent-amber-600" id="calories-range">
+                    <div class="text-center mt-2">
+                        <span id="calories-value" class="font-medium">Up to 800 kcal</span>
+                    </div>
+                </div>
+                
+                <button id="reset-filters" class="w-full bg-amber-100 text-amber-800 py-2 rounded-lg font-medium hover:bg-amber-200 transition">
+                    Reset Filters
+                </button>
+            </aside>
+            
+            <!-- Products Section -->
+            <section class="flex-1">
+                <div class="mb-6 flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-amber-900">Our Fresh Baked Goods</h2>
+                    <div class="relative">
+                        <select id="sort-by" class="bg-white border border-amber-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <option value="default">Sort by</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="calories-asc">Calories: Low to High</option>
+                            <option value="calories-desc">Calories: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Products will be loaded here by JavaScript -->
+                </div>
+                
+                <div id="no-products" class="hidden text-center py-12">
+                    <i class="fas fa-bread-slice text-5xl text-amber-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-amber-800">No products match your filters</h3>
+                    <p class="text-amber-600 mt-2">Try adjusting your filters to see more delicious options!</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
+        <div class="p-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-amber-900">Your Cart</h2>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="cart-items" class="space-y-4">
+                <!-- Cart items will be loaded here -->
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-shopping-cart text-4xl mb-2"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            
+            <div id="cart-summary" class="hidden mt-6 border-t border-gray-200 pt-4">
+                <div class="flex justify-between mb-2">
+                    <span class="font-medium">Subtotal:</span>
+                    <span id="cart-subtotal">$0.00</span>
+                </div>
+                <div class="flex justify-between mb-4">
+                    <span class="font-medium">Delivery:</span>
+                    <span>$2.99</span>
+                </div>
+                <div class="flex justify-between text-lg font-bold">
+                    <span>Total:</span>
+                    <span id="cart-total">$2.99</span>
+                </div>
+                
+                <button id="checkout-btn" class="w-full bg-amber-600 text-white py-3 rounded-lg font-bold mt-6 hover:bg-amber-700 transition">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="cart-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-amber-900">Payment Survey</h2>
+                    <button id="close-checkout" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">How did you hear about us?</label>
+                        <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <option>Select an option</option>
+                            <option>Social Media</option>
+                            <option>Friend/Family</option>
+                            <option>Google Search</option>
+                            <option>Walked by the store</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">How often do you purchase baked goods?</label>
+                        <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <option>Select an option</option>
+                            <option>Daily</option>
+                            <option>Weekly</option>
+                            <option>Monthly</option>
+                            <option>Occasionally</option>
+                            <option>First time</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">What's most important to you in baked goods?</label>
+                        <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <option>Select an option</option>
+                            <option>Taste</option>
+                            <option>Freshness</option>
+                            <option>Price</option>
+                            <option>Healthiness</option>
+                            <option>Variety</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                        <div class="grid grid-cols-2 gap-3 mt-2">
+                            <div class="payment-option border rounded-lg p-3 flex flex-col items-center cursor-pointer">
+                                <i class="fab fa-cc-visa text-3xl text-blue-600 mb-2"></i>
+                                <span>Credit Card</span>
+                            </div>
+                            <div class="payment-option border rounded-lg p-3 flex flex-col items-center cursor-pointer">
+                                <i class="fab fa-paypal text-3xl text-blue-500 mb-2"></i>
+                                <span>PayPal</span>
+                            </div>
+                            <div class="payment-option border rounded-lg p-3 flex flex-col items-center cursor-pointer">
+                                <i class="fas fa-money-bill-wave text-3xl text-green-600 mb-2"></i>
+                                <span>Cash on Delivery</span>
+                            </div>
+                            <div class="payment-option border rounded-lg p-3 flex flex-col items-center cursor-pointer">
+                                <i class="fab fa-apple-pay text-3xl text-black mb-2"></i>
+                                <span>Apple Pay</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button id="complete-order" class="w-full bg-amber-600 text-white py-3 rounded-lg font-bold hover:bg-amber-700 transition">
+                            Complete Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation -->
+    <div id="order-confirmation" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-center">
+            <div class="text-green-500 mb-4">
+                <i class="fas fa-check-circle text-5xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-amber-900 mb-2">Order Confirmed!</h2>
+            <p class="text-gray-600 mb-6">Thank you for your purchase. Your delicious baked goods will be ready soon!</p>
+            <button id="close-confirmation" class="w-full bg-amber-600 text-white py-3 rounded-lg font-bold hover:bg-amber-700 transition">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-amber-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Sweet Delights</h3>
+                    <p class="text-amber-200">Freshly baked goods made with love and the finest ingredients since 2010.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-amber-200 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-amber-200 hover:text-white">Menu</a></li>
+                        <li><a href="#" class="text-amber-200 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-amber-200 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                    <address class="not-italic text-amber-200">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i> 123 Baker Street, Breadville</p>
+                        <p><i class="fas fa-phone mr-2"></i> (555) 123-4567</p>
+                        <p><i class="fas fa-envelope mr-2"></i> info@sweetdelights.com</p>
+                    </address>
+                </div>
+            </div>
+            <div class="border-t border-amber-800 mt-8 pt-6 text-center text-amber-200">
+                <p>&copy; 2023 Sweet Delights Bakery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
